@@ -1,0 +1,44 @@
+{% extends "base.nj" %}
+
+{% block content %}
+<form action="/login" method="post" data-trigger="login" style="width: 480px;margin: 100px auto 0;">
+    <div class="form-group">
+        <label>用户名</label>
+        <input type="text" name="username" class="form-control" placeholder="Username">
+    </div>
+    <div class="form-group">
+        <label>密码</label>
+        <input type="password" name="password" class="form-control" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$('form[data-trigger="login"]').on("submit", function (ev) {
+    ev.preventDefault();
+
+    var node = $(this);
+    var path = node.attr("action");
+    var data = node.serialize();
+
+    $.ajax({
+        url: path,
+        method: "POST",
+        dataType: "json",
+        data: data
+    }).then(function (res) {
+        if (res && res.code === 100) {
+            location.href = res.url;
+            return;
+        }
+
+        throw res;
+    }).catch(function (err) {
+        alert(err.responseText);
+    });
+});
+</script>
+{% endblock %}
+

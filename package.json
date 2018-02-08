@@ -1,0 +1,39 @@
+{
+  "name": "group.huoma",
+  "version": "1.0.0",
+  "description": "qrcode for join the wechat's group",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "egg-scripts start --daemon",
+    "stop": "egg-scripts stop",
+    "dev": "egg-bin dev",
+    "cov": "egg-bin cov",
+    "test": "egg-bin test"
+  },
+  "keywords": [
+    "qrcode",
+    "wechat",
+    "group"
+  ],
+  "author": "hsiengfu.tseng@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "egg": "^2.3.0",
+    "egg-redis": "^1.0.2",
+    "egg-scripts": "^2.5.0",
+    "egg-session-redis": "^1.0.0",
+    "egg-validate": "^1.0.0",
+    "egg-view-nunjucks": "^2.1.4",
+    "jsqr": "^1.0.1",
+    "moment": "^2.20.1",
+    "sharp": "^0.19.0"
+  },
+  "devDependencies": {
+    "egg-bin": "^4.3.7",
+    "egg-mock": "^3.14.0",
+    "eslint": "^4.16.0"
+  },
+  "private": true
+}

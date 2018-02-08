@@ -1,0 +1,101 @@
+{% extends "base.nj" %}
+
+{% block content %}
+<h3>总计: <span class="text-danger">{{llen}}</span>个群</h3>
+<h3>当前: <span class="text-success">{{head.name}}</span></h3>
+
+<table class="table table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">图片</th>
+      <th scope="col">标题</th>
+      <th scope="col" class="text-right">浏览数</th>
+      <th scope="col" width="120">群当前总成员</th>
+      <th scope="col" width="120">浏览最大限制</th>
+      <th scope="col">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in data %}
+    {% if item.url == head.url %}
+    <tr class="table-warning">
+    {% else %}
+    <tr>
+    {% endif %}
+      <th scope="row" class="align-middle">{{loop.index | leftpad(loop.length)}}</th>
+      <td class="align-middle">{{item.url}}</td>
+      <td class="align-middle">{{item.name}}</td>
+      <td class="align-middle text-right">{{item.open}}</td>
+      <td class="align-middle">
+        <div class="input-group">
+            <input type="number" id="join-{{loop.index0}}" value="{{item.joined}}" class="form-control" />
+        </div>
+      </td>
+      <td class="align-middle">
+        <div class="input-group">
+            <input type="number"  id="flex-{{loop.index0}}" value="{{item.flex}}" class="form-control" />
+        </div>
+      </td>
+      <td>
+        <a href="/api/update" data-index="{{loop.index0}}" data-target="join-{{loop.index0}},flex-{{loop.index0}}" class="J-btn btn btn-light">修改</a>
+      </td>
+    </tr>
+  {% else %}
+  <tr>
+      <td colspan="7" class="text-center"><a href="/api/push" data-mode="ajax" class="btn btn-danger">Add QRCodes</a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document.body).on('click.update', '.J-btn', function (ev) {
+    ev.preventDefault();
+
+    var path = $(this).attr('href');
+    var data = $(this).data();
+    var target = data.target.split(',').map(function (id) {
+        return $('#' + id).val();
+    });
+
+    $.ajax({
+        url: path,
+        type: 'POST',
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({
+            index: parseInt(data.index),
+            join: parseInt(target[0]),
+            flex: parseInt(target[1])
+        })
+    }).then(function (ret) {
+        if (ret.code !== 100) {
+            return Promise.reject(ret);
+        }
+    }).catch(function (err) {
+        alert(err.message);
+    });
+}).on('click.add', '[data-mode="ajax"]', function (ev) {
+    ev.preventDefault();
+
+    var url = $(this).attr('href');
+
+    $.ajax({
+        url: url,
+        type: 'PUT',
+        contentType: "application/json; charset=utf-8"
+    }).then(function (ret) {
+        if (ret.code !== 100) {
+            return Promise.reject(ret);
+        }
+
+        location.reload();
+    }).catch(function (err) {
+        alert(err.message);
+    });
+});
+</script>
+{% endblock %}

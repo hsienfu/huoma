@@ -1,0 +1,7 @@
+logs/*
+run/*
+app/public/qrcode/
+config/config.local.*
+node_modules/
+**/.DS_Store
+package-lock.json

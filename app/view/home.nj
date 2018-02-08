@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>{% block title %}
+    {% if error %}
+        {{error}}
+    {% else %}
+        {% if index == -1 %}
+        活动未开始
+        {% elif index == -2 %}
+        群已满
+        {% else %}
+        {{name}}
+        {% endif %}
+    {% endif %}
+{% endblock %}</title>
+<style>
+img {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+{% block content %}
+    {% if error %}
+        {{error}}
+    {% else %}
+        {% if index == -1 %}
+        活动未开始
+        {% elif index == -2 %}
+        群已满
+        {% else %}
+        <img src="{{url}}" />
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+</body>
+</html>
