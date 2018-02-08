@@ -32,6 +32,7 @@ module.exports = appInfo => {
             defaultExtension: '.nj'
         },
         prefix: "GROUP:QRCODE",
-        upperLimit: 100
+        upperLimit: 100,
+        qrcodeTitle: "测试"
     };
 };
