@@ -26,7 +26,7 @@
     "egg-session-redis": "^1.0.0",
     "egg-validate": "^1.0.0",
     "egg-view-nunjucks": "^2.1.4",
-    "moment": "^2.20.1",
+    "moment": "^2.20.1"
   },
   "devDependencies": {
     "egg-bin": "^4.3.7",
