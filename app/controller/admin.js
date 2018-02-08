@@ -28,8 +28,8 @@ module.exports = app => {
 
             try {
                 ctx.validate({
-                    username: 'string',
-                    password: 'string'
+                    username: { type: 'string', max: 10 },
+                    password: { type: 'string', max: 20 }
                 });
             } catch (err) {
                 ctx.body = {
