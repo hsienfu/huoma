@@ -2,6 +2,7 @@ logs/*
 run/*
 app/public/qrcode/
 config/config.local.*
+config/config.prod.*
 node_modules/
 **/.DS_Store
 package-lock.json
