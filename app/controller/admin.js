@@ -1,4 +1,8 @@
 const moment = require('moment');
+const fs = require('fs');
+const path = require('path');
+const awaitWriteStream = require('await-stream-ready').write;
+const sendToWormhole = require('stream-wormhole');
 
 module.exports = app => {
     const conf = app.config;
@@ -71,20 +75,36 @@ module.exports = app => {
             ctx.redirect(ENTRY_PATH);
         }
 
-        // 生成二维码
-        async push(ctx) {
-            if (!await redis.exists('QRCODE:LIST')) {
-                for (let i = 31; i < 81; i++) {
+        // 上传图片
+        async upload(ctx) {
+            let parts = this.ctx.multipart({
+                autoFields: true
+            });
+            let stream;
+
+            while ((stream = await parts()) != null) {
+                const filename = stream.filename.toLowerCase();
+                const extname = path.extname(filename);
+                const basename = path.basename(filename, extname);
+                const rename = moment().format('x') + "-" + filename;
+                const target = path.join(app.baseDir, 'app/public/qrcode', rename);
+
+                const name = `${conf.qrcodeTitle}${basename}群`;
+                const url = path.join('/public/qrcode', rename);
+
+                const writeStream = fs.createWriteStream(target);
+                try {
+                    await awaitWriteStream(stream.pipe(writeStream));
                     await ctx.service.qrcode.push({
-                        "name": `${conf.qrcodeTitle}${i}群`,
-                        "url": `/public/qrcode/${i}.png`
+                        "name": name,
+                        "url": url
                     });
+                } catch (err) {
+                    await sendToWormhole(stream);
                 }
             }
 
-            ctx.body = {
-                code: 100
-            };
+            ctx.redirect(INDEX_PATH);
         }
 
         async admin(ctx) {

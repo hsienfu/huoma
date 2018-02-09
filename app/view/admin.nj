@@ -2,7 +2,21 @@
 
 {% block content %}
 <h3>总计: <span class="text-danger">{{llen}}</span>个群</h3>
-<h3>当前: <span class="text-success">{{head.name}}</span></h3>
+<h3 class="mb-4">当前: <span class="text-success">{{head.name}}</span></h3>
+
+<form method="POST" action="/api/upload" enctype="multipart/form-data">
+  <div class="form-group">
+      <div class="float-right ml-3">
+        <button type="submit" class="btn btn-primary px-5">上传</button>
+      </div>
+      <div class="text-truncate">
+          <div class="custom-file">
+            <input type="file" name="file" class="custom-file-input" id="customFile" multiple="multiple">
+            <label class="custom-file-label" for="customFile">批量新增群二维码</label>
+          </div>
+      </div>
+  </div>
+</form>
 
 <table class="table table-striped">
   <thead class="table-dark">
@@ -41,10 +55,6 @@
         <a href="/api/update" data-index="{{loop.index0}}" data-target="join-{{loop.index0}},flex-{{loop.index0}}" class="J-btn btn btn-light">修改</a>
       </td>
     </tr>
-  {% else %}
-  <tr>
-      <td colspan="7" class="text-center"><a href="/api/push" data-mode="ajax" class="btn btn-danger">Add QRCodes</a></td>
-  </tr>
   {% endfor %}
   </tbody>
 </table>
@@ -75,24 +85,6 @@ $(document.body).on('click.update', '.J-btn', function (ev) {
         if (ret.code !== 100) {
             return Promise.reject(ret);
         }
-    }).catch(function (err) {
-        alert(err.message);
-    });
-}).on('click.add', '[data-mode="ajax"]', function (ev) {
-    ev.preventDefault();
-
-    var url = $(this).attr('href');
-
-    $.ajax({
-        url: url,
-        type: 'PUT',
-        contentType: "application/json; charset=utf-8"
-    }).then(function (ret) {
-        if (ret.code !== 100) {
-            return Promise.reject(ret);
-        }
-
-        location.reload();
     }).catch(function (err) {
         alert(err.message);
     });

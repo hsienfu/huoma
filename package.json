@@ -20,13 +20,15 @@
   "author": "hsiengfu.tseng@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "await-stream-ready": "^1.0.1",
     "egg": "^2.3.0",
     "egg-redis": "^1.0.2",
     "egg-scripts": "^2.5.0",
     "egg-session-redis": "^1.0.0",
     "egg-validate": "^1.0.0",
     "egg-view-nunjucks": "^2.1.4",
-    "moment": "^2.20.1"
+    "moment": "^2.20.1",
+    "stream-wormhole": "^1.0.3"
   },
   "devDependencies": {
     "egg-bin": "^4.3.7",
