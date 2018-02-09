@@ -7,7 +7,7 @@ module.exports = app => {
     class Home extends app.Controller {
         // 扫码
         async join(ctx) {
-            let isNewUser = ctx.session && ctx.session.qrcode === undefined;
+            let isNewUser = !(ctx.session && ctx.session.qrcode !== undefined);
             let qr = ctx.service.qrcode;
             let index;
 
